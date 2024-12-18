@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
 
-import '../ads/ads_controller.dart';
 import '../ai/ai_opponent.dart';
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
@@ -205,12 +204,12 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     _startOfPlay = DateTime.now();
 
     // Preload ad for the win screen.
-    final adsRemoved =
-        context.read<InAppPurchaseController?>()?.adRemoval.active ?? false;
-    if (!adsRemoved) {
-      final adsController = context.read<AdsController?>();
-      adsController?.preloadAd();
-    }
+    // final adsRemoved =
+    //     context.read<InAppPurchaseController?>()?.adRemoval.active ?? false;
+    // if (!adsRemoved) {
+    //   final adsController = context.read<AdsController?>();
+    //   adsController?.preloadAd();
+    // }
   }
 
   void _aiOpponentWon() {
