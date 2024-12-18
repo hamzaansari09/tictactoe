@@ -6,13 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
-import 'src/ads/ads_controller.dart';
 import 'src/app_lifecycle/app_lifecycle.dart';
 import 'src/audio/audio_controller.dart';
 import 'src/crashlytics/crashlytics.dart';
@@ -81,15 +80,6 @@ Future<void> main() async {
     SystemUiMode.edgeToEdge,
   );
 
-  AdsController? adsController;
-  if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
-    /// Prepare the google_mobile_ads plugin so that the first ad loads
-    /// faster. This can be done later or with a delay if startup
-    /// experience suffers.
-    adsController = AdsController(MobileAds.instance);
-    adsController.initialize();
-  }
-
   GamesServicesController? gamesServicesController;
   if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
     gamesServicesController = GamesServicesController()
@@ -112,7 +102,6 @@ Future<void> main() async {
       settingsPersistence: LocalStorageSettingsPersistence(),
       playerProgressPersistence: LocalStoragePlayerProgressPersistence(),
       inAppPurchaseController: inAppPurchaseController,
-      adsController: adsController,
       gamesServicesController: gamesServicesController,
     ),
   );
@@ -187,13 +176,10 @@ class MyApp extends StatelessWidget {
 
   final InAppPurchaseController? inAppPurchaseController;
 
-  final AdsController? adsController;
-
   const MyApp({
     required this.playerProgressPersistence,
     required this.settingsPersistence,
     required this.inAppPurchaseController,
-    required this.adsController,
     required this.gamesServicesController,
     super.key,
   });
@@ -212,7 +198,6 @@ class MyApp extends StatelessWidget {
           ),
           Provider<GamesServicesController?>.value(
               value: gamesServicesController),
-          Provider<AdsController?>.value(value: adsController),
           ChangeNotifierProvider<InAppPurchaseController?>.value(
               value: inAppPurchaseController),
           Provider<SettingsController>(
