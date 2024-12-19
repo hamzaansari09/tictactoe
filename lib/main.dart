@@ -6,10 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import 'firebase_options.dart';
 import 'src/app_lifecycle/app_lifecycle.dart';
@@ -46,10 +45,26 @@ Future<void> main() async {
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       };
+      
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
       };
+
+      await Purchases.setLogLevel(LogLevel.debug);
+      PurchasesConfiguration? configuration;
+      if (Platform.isAndroid) {
+        configuration = PurchasesConfiguration(
+            '<revenuecat_project_google_api_key>');
+      } else if (Platform.isIOS) {
+        configuration = PurchasesConfiguration(
+            'appl_vQNfhWjudOGidxqxgtXupnTxgHH');
+      }
+      if (configuration != null) {
+        await Purchases.configure(configuration);
+      } else {
+        _log.severe('Subscription is not available on this platform');
+      }
     } catch (e) {
       debugPrint("Firebase couldn't be initialized: $e");
     }
@@ -89,8 +104,8 @@ Future<void> main() async {
 
   InAppPurchaseController? inAppPurchaseController;
   if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
-    inAppPurchaseController = InAppPurchaseController(InAppPurchase.instance)
-      // Subscribing to [InAppPurchase.instance.purchaseStream] as soon
+    inAppPurchaseController = InAppPurchaseController()
+      // Subscribing to [InAppPurchase.instance.purchaseStream]  soon
       // as possible in order not to miss any updates.
       ..subscribe();
     // Ask the store what the player has bought already.

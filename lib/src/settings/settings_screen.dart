@@ -64,16 +64,16 @@ class SettingsScreen extends StatelessWidget {
 
               Widget icon;
               VoidCallback? callback;
-              if (inAppPurchase.adRemoval.active) {
-                icon = const Icon(Icons.check);
-              } else if (inAppPurchase.adRemoval.pending) {
-                icon = const CircularProgressIndicator();
-              } else {
+              // if (inAppPurchase.adRemoval.active) {
+              //   icon = const Icon(Icons.check);
+              // } else if (inAppPurchase.adRemoval.pending) {
+              //   icon = const CircularProgressIndicator();
+              // } else {
                 icon = const Icon(Icons.ad_units);
                 callback = () {
                   inAppPurchase.buy();
                 };
-              }
+              // }
               return _SettingsLine(
                 'Remove ads',
                 icon,

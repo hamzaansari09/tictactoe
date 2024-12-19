@@ -31,3 +31,21 @@ class Palette {
   Color get backgroundSettings => const Color(0xffbfc8e3);
   Color get trueWhite => const Color(0xffffffff);
 }
+
+class PaletteJungle {
+  // Primary Colors
+  Color get jungleGreen => const Color(0xFF4CAF50);
+  Color get tropicalFlower => const Color(0xFFFF6F61);
+  Color get woodenTexture => const Color(0xFF8B4513);
+  Color get skyBlue => const Color(0xFF87CEEB);
+
+  // Accent Colors
+  Color get brightYellow => const Color(0xFFFFD700);
+  Color get darkGreen => const Color(0xFF2E7D32);
+  Color get lightPink => const Color(0xFFFFC1CC);
+  Color get sunlightOrange => const Color(0xFFFFA726);
+
+  // Neutral Colors
+  Color get sandBeige => const Color(0xFFF4E7C4);
+  Color get stoneGray => const Color(0xFFA9A9A9);
+}
